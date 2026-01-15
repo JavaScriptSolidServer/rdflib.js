@@ -629,9 +629,9 @@ abc:def
         expect(serialize(null, store, null, 'application/ld+json')).to.eql(jsonldContent)
         // Now parse back the jsonld content and see we get the same number of triples
         store1 = DataFactory.graph()
-        let base = 'https://www.example.org/abc/def'
-        let mimeType = 'application/ld+json'
-        parse(jsonldContent, store1, base, mimeType, (err) => {
+        let jsonldBase = 'https://www.example.org/abc/def'
+        let jsonldMimeType = 'application/ld+json'
+        parse(jsonldContent, store1, jsonldBase, jsonldMimeType, (err) => {
           expect(err).to.be.undefined
           expect(store1.statements).to.have.length(10)
           expect(serialize(null, store1, null, 'text/turtle')).to.eql(ttlContent)
