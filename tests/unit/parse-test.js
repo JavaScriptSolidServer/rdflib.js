@@ -494,7 +494,6 @@ exa:myid exa:prop1 [ exa:prop2 [ exa:prop3 "value" ] ].
   describe('rdfa', () => {
     describe('html from test-suite', () => {
             let store
-            let store1
             let ttlContent
       before(done => {
         const base = 'https://www.example.org/abc/def'
