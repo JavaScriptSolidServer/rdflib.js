@@ -492,13 +492,13 @@ exa:myid exa:prop1 [ exa:prop2 [ exa:prop3 "value" ] ].
   }) // xml
 
   describe('rdfa', () => {
-    describe('html from test-suite', () => {
-            let store
-            let ttlContent
+      let store
+      let store1
+      let ttlContent
       before(done => {
         const base = 'https://www.example.org/abc/def'
         const mimeType = 'text/html'
-      const content = `<?xml version="1.0" encoding="UTF-8"?>
+        const content = `<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.1//EN"
         "http://www.w3.org/MarkUp/DTD/xhtml-rdfa-2.dtd">
 <html version="XHTML+RDFa 1.1" xmlns="http://www.w3.org/1999/xhtml"
