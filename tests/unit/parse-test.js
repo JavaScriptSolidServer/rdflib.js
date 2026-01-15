@@ -635,7 +635,6 @@ abc:def
         parse(jsonldContent, store1, base, mimeType, (err) => {
           expect(err).to.be.undefined
           expect(store1.statements).to.have.length(10)
-          console.log('RDFa jsonld parse back successful')
           expect(serialize(null, store1, null, 'text/turtle')).to.eql(ttlContent)
         })
       }) // test jsonld
