@@ -45,15 +45,29 @@
   "bugs": "http://github.com/linkeddata/rdflib.js/issues",
   "dependencies": {
     "@babel/runtime": "^7.28.4",
-    "@frogcat/ttl2jsonld": "^0.0.10",
     "@rdfjs/types": "^2.0.1",
-    "@xmldom/xmldom": "^0.8.11",
-    "cross-fetch": "^4.1.0",
-    "jsonld": "^9.0.0",
-    "n3": "^1.26.0",
     "solid-namespace": "^0.5.4"
   },
+  "peerDependencies": {
+    "@frogcat/ttl2jsonld": "^0.0.10",
+    "@xmldom/xmldom": "^0.8.11",
+    "jsonld": "^9.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@frogcat/ttl2jsonld": {
+      "optional": true
+    },
+    "@xmldom/xmldom": {
+      "optional": true
+    },
+    "jsonld": {
+      "optional": true
+    }
+  },
   "devDependencies": {
+    "@frogcat/ttl2jsonld": "^0.0.10",
+    "@xmldom/xmldom": "^0.8.11",
+    "jsonld": "^9.0.0",
     "@babel/cli": "^7.28.3",
     "@babel/core": "^7.28.5",
     "@babel/plugin-proposal-class-properties": "^7.18.6",
