@@ -37,7 +37,9 @@ import * as Uri from './uri'
 import { isCollection, isNamedNode} from './utils/terms'
 import * as Util from './utils-js'
 import serialize from './serialize'
-import crossFetch, { Headers } from 'cross-fetch'
+// Use native fetch when available, no polyfill needed for modern environments
+// Headers is a global in modern browsers and Node.js 18+
+declare var Headers: typeof globalThis.Headers
 
 import {
   ContentType, TurtleContentType, RDFXMLContentType, XHTMLContentType
@@ -756,12 +758,13 @@ export default class Fetcher implements CallbackifyInterface {
     this.timeout = options.timeout || 30000
 
     // solidFetcher is deprecated
+    // Prefer native fetch (available in modern browsers and Node.js 18+)
     let fetchFunc = options.fetch
-               || (typeof global !== 'undefined' && (global.solidFetcher || global.solidFetch))
-               || (typeof window !== 'undefined' && (window.solidFetcher || window.solidFetch))
-               || crossFetch
+               || (typeof globalThis !== 'undefined' && globalThis.fetch)
+               || (typeof global !== 'undefined' && (global.solidFetcher || global.solidFetch || global.fetch))
+               || (typeof window !== 'undefined' && (window.solidFetcher || window.solidFetch || window.fetch))
     if (!fetchFunc) {
-      throw new Error('No _fetch function available for Fetcher')
+      throw new Error('No fetch function available. If using Node.js < 18, install a fetch polyfill.')
     }
     // Bind fetch to its context to avoid "Illegal invocation" errors
     // Check if it's the native browser fetch or global fetch that needs binding

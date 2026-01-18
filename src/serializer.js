@@ -5,7 +5,20 @@
 ** This is or was https://github.com/linkeddata/rdflib.js/blob/main/src/serializer.js
 ** Licence: MIT
 */
-import * as ttl2jsonld from '@frogcat/ttl2jsonld'
+// ttl2jsonld is lazy-loaded only when JSON-LD serialization is needed
+let _ttl2jsonld = null
+function getTtl2Jsonld() {
+  if (_ttl2jsonld) return _ttl2jsonld
+  // Use dynamic require to avoid bundling for browser builds
+  // This will only be loaded when statementsToJsonld is called
+  try {
+    _ttl2jsonld = require('@frogcat/ttl2jsonld')
+  } catch (e) {
+    throw new Error('JSON-LD serialization requires @frogcat/ttl2jsonld. Install it with: npm install @frogcat/ttl2jsonld')
+  }
+  return _ttl2jsonld
+}
+
 import solidNs from 'solid-namespace'
 import CanonicalDataFactory from './factories/canonical-data-factory'
 import * as Uri from './uri'
@@ -1058,6 +1071,7 @@ export class Serializer {
         }
       }
     } */
+    const ttl2jsonld = getTtl2Jsonld()
     const turtleDoc = this.statementsToN3(sts)
     const jsonldObj = ttl2jsonld.parse(turtleDoc)
     return JSON.stringify(jsonldObj, null, 2)

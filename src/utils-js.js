@@ -245,25 +245,47 @@ export function output (o) {
   document.body.appendChild(k)
 }
 
-import { DOMParser } from '@xmldom/xmldom'
+// Use native DOMParser in browser, only load xmldom in Node.js
+let _xmldomParser = null
+
+function getNodeDOMParser() {
+  if (_xmldomParser) return _xmldomParser
+  // Dynamic require for Node.js - won't be bundled for browser
+  try {
+    const xmldom = require('@xmldom/xmldom')
+    _xmldomParser = new xmldom.DOMParser()
+    return _xmldomParser
+  } catch (e) {
+    return null
+  }
+}
 
 /**
  * Returns a DOM from parsed XML.
  */
 export function parseXML (str, options) {
-  var dparser
   options = options || {}
-  if (typeof module !== 'undefined' && module && module.exports) { // Node.js
-    var dom = new DOMParser().parseFromString(str, options.contentType || 'application/xhtml+xml')
-    return dom
-  } else {
-    if (typeof window !== 'undefined' && window.DOMParser) {
-      dparser = new window.DOMParser() // seems to actually work
-    } else {
-      dparser = new DOMParser() // Doc says this works
+  const contentType = options.contentType || 'application/xml'
+
+  // Browser environment - use native DOMParser
+  if (typeof window !== 'undefined' && window.DOMParser) {
+    return new window.DOMParser().parseFromString(str, contentType)
+  }
+
+  // Node.js environment - use xmldom
+  if (typeof process !== 'undefined' && process.versions && process.versions.node) {
+    const parser = getNodeDOMParser()
+    if (parser) {
+      return parser.parseFromString(str, options.contentType || 'application/xhtml+xml')
     }
   }
-  return dparser.parseFromString(str, 'application/xml')
+
+  // Fallback - try global DOMParser
+  if (typeof DOMParser !== 'undefined') {
+    return new DOMParser().parseFromString(str, contentType)
+  }
+
+  throw new Error('No DOMParser available')
 }
 
 /**

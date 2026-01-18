@@ -1,15 +1,13 @@
 import DataFactory from './factories/extended-term-factory'
 import jsonldParser from './jsonldparser'
-// @ts-ignore is this injected?
-import { Parser as N3jsParser } from 'n3'  // @@ Goal: remove this dependency
 import N3Parser from './n3parser'
+import { parseNQuads } from './nquads-parser'
 import { parseRDFaDOM } from './rdfaparser'
 import RDFParser from './rdfxmlparser'
 import sparqlUpdateParser from './patch-parser'
 import * as Util from './utils-js'
 import Formula from './formula'
 import { ContentType, TurtleContentType, N3ContentType, RDFXMLContentType, XHTMLContentType, HTMLContentType, SPARQLUpdateContentType, SPARQLUpdateSingleMatchContentType, JSONLDContentType, NQuadsContentType, NQuadsAltContentType } from './types'
-import { Quad } from './tf-types'
 
 type CallbackFunc = (error: any, kb: Formula | null) => void
 
@@ -60,8 +58,16 @@ export default function parse (
           .catch(executeErrorCallback)
     } else if (contentType === NQuadsContentType ||
                contentType === NQuadsAltContentType) {
-      var n3Parser = new N3jsParser({ factory: DataFactory })
-      nquadCallback(null, str)
+      parseNQuads(str, DataFactory, (err, quad) => {
+        if (err) {
+          executeErrorCallback(err)
+        } else if (quad) {
+          kb.add(quad.subject, quad.predicate, quad.object, quad.graph)
+        } else {
+          // null quad signals end of parsing
+          executeCallback()
+        }
+      })
     } else if (contentType === undefined) {
       throw new Error("contentType is undefined")
     } else {
@@ -110,35 +116,6 @@ export default function parse (
         e2.cause = e
         throw e2
       }
-    }
-  }
-/*
-  function setJsonLdBase (doc, base) {
-    if (doc instanceof Array) {
-      return
-    }
-    if (!('@context' in doc)) {
-      doc['@context'] = {}
-    }
-    doc['@context']['@base'] = base
-  }
-*/
-  function nquadCallback (err?: Error | null, nquads?: string): void {
-    if (err) {
-      (callback as CallbackFunc)(err, kb)
-    }
-    try {
-      n3Parser.parse(nquads, tripleCallback)
-    } catch (err) {
-      (callback as CallbackFunc)(err, kb)
-    }
-  }
-
-  function tripleCallback (err: Error, triple: Quad) {
-    if (triple) {
-      kb.add(triple.subject, triple.predicate, triple.object, triple.graph)
-    } else {
-      (callback as CallbackFunc)(err, kb)
     }
   }
 }
