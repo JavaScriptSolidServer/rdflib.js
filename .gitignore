@@ -1,8 +1,4 @@
-dist
 doc
 parsers/*.js
 node_modules
 npm-debug.log
-dist/rdflib.min.js
-lib/
-esm

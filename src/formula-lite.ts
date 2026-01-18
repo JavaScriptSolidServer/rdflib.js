@@ -13,22 +13,15 @@
 import ClassOrder from './class-order'
 import Collection from './collection'
 import CanonicalDataFactory from './factories/canonical-data-factory'
-import log from './log'
 import RDFlibNamedNode from './named-node'
 import Namespace from './namespace'
 import Node from './node-internal'
 import Statement from './statement'
 import {
-  Bindings,
   GraphTermType,
 } from './types'
 import { isStatement } from './utils/terms'
 import Variable from './variable'
-import {
-  Indexable,
-  TFIDFactoryTypes,
-} from './factories/factory-types'
-import { appliedFactoryMethods, arrayToStatements } from './utils'
 import {
   RdfJsDataFactory,
   Quad_Graph,
@@ -46,18 +39,6 @@ export interface FormulaOpts {
   dataRemovalCallback?: (q: Quad) => void;
   rdfArrayRemove?: (arr: Quad[], q: Quad) => void
   rdfFactory?: RdfJsDataFactory
-}
-
-interface BooleanMap {
-  [uri: string]: boolean;
-}
-
-interface MembersMap {
-  [uri: string]: Quad;
-}
-
-interface UriMap {
-  [uri: string]: string;
 }
 
 /**

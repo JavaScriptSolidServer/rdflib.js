@@ -7,44 +7,19 @@
  * @module store-lite
  */
 
-import ClassOrder from './class-order'
-import { defaultGraphURI } from './factories/canonical-data-factory'
 import FormulaLite, { FormulaOpts } from './formula-lite'
-import { ArrayIndexOf } from './utils'
 import {
-  isRDFlibSubject,
-  isRDFlibPredicate,
-  isRDFlibObject,
-  isStore,
-  isGraph,
   isQuad,
 } from './utils/terms'
-import Node from './node'
-import Variable from './variable'
-import {
-  Bindings, BlankNodeTermType, CollectionTermType, DefaultGraphTermType,
-  EmptyTermType, GraphTermType, LiteralTermType, NamedNodeTermType, VariableTermType
-} from './types'
 import Statement from './statement'
-import { Indexable } from './factories/factory-types'
-import NamedNode from './named-node'
 import {
   Quad_Graph,
-  Literal as TFLiteral,
-  NamedNode as TFNamedNode,
   Quad_Object,
   Quad_Predicate,
   Quad,
   Quad_Subject,
   Term,
 } from './tf-types'
-import BlankNode from './blank-node'
-import DefaultGraph from './default-graph'
-import Empty from './empty'
-import Literal from './literal'
-import Collection from './collection'
-
-const owlNamespaceURI = 'http://www.w3.org/2002/07/owl#'
 
 type FeaturesType = Quad[] | FormulaOpts
 

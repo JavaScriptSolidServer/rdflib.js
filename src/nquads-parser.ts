@@ -9,13 +9,6 @@
 
 import { RdfJsDataFactory, Quad } from './tf-types'
 
-// Regex patterns for N-Quads/N-Triples
-const IRI_PATTERN = /<([^>]*)>/
-const BLANK_NODE_PATTERN = /_:([^\s]+)/
-const LITERAL_PATTERN = /"([^"\\]*(?:\\.[^"\\]*)*)"/
-const LANG_TAG_PATTERN = /@([a-zA-Z]+(?:-[a-zA-Z0-9]+)*)/
-const DATATYPE_PATTERN = /\^\^<([^>]*)>/
-
 interface ParsedTerm {
   type: 'iri' | 'blank' | 'literal'
   value: string
