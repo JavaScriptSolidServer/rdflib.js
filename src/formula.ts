@@ -27,7 +27,7 @@ import {
   Quad_Subject,
   Term,
 } from './tf-types'
-import Fetcher from './fetcher'
+import type Fetcher from './fetcher'
 import BlankNode from './blank-node'
 import NamedNode from './named-node'
 

@@ -140,6 +140,53 @@
   "module": "esm/index.js",
   "types": "lib/index.d.ts",
   "sideEffects": false,
+  "exports": {
+    ".": {
+      "import": "./esm/index.js",
+      "require": "./lib/index.js",
+      "types": "./lib/index.d.ts"
+    },
+    "./core": {
+      "import": "./esm/core.js",
+      "require": "./lib/core.js",
+      "types": "./lib/core.d.ts"
+    },
+    "./parse-lite": {
+      "import": "./esm/parse-lite.js",
+      "require": "./lib/parse-lite.js",
+      "types": "./lib/parse-lite.d.ts"
+    },
+    "./fetcher": {
+      "import": "./esm/fetcher.js",
+      "require": "./lib/fetcher.js",
+      "types": "./lib/fetcher.d.ts"
+    },
+    "./update-manager": {
+      "import": "./esm/update-manager.js",
+      "require": "./lib/update-manager.js",
+      "types": "./lib/update-manager.d.ts"
+    },
+    "./parsers/n3": {
+      "import": "./esm/n3parser.js",
+      "require": "./lib/n3parser.js"
+    },
+    "./parsers/rdfxml": {
+      "import": "./esm/rdfxmlparser.js",
+      "require": "./lib/rdfxmlparser.js"
+    },
+    "./parsers/rdfa": {
+      "import": "./esm/rdfaparser.js",
+      "require": "./lib/rdfaparser.js"
+    },
+    "./parsers/jsonld": {
+      "import": "./esm/jsonldparser.js",
+      "require": "./lib/jsonldparser.js"
+    },
+    "./serializer": {
+      "import": "./esm/serializer.js",
+      "require": "./lib/serializer.js"
+    }
+  },
   "keywords": [
     "linkeddata",
     "linked data",
